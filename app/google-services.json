@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "407578789183",
+    "project_id": "android-drinkshop",
+    "storage_bucket": "android-drinkshop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407578789183:android:d1939b49d1b080b75a3f8a",
+        "android_client_info": {
+          "package_name": "com.itsbenzopila.drinkshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxXtPbU1eQ0CxwBL5RhPCr6OT6QJ26mdY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
