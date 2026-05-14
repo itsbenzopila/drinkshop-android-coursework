@@ -2,7 +2,7 @@
 
 Курсовая работа по дисциплине **«Разработка клиент-серверных мобильных приложений»**.
 Клиентское Android-приложение магазина напитков с авторизацией Firebase, REST-обменом с
-[нашим Ktor-бэкендом](https://github.com/itsbenzopila/drinkshop-backend) и бонусной системой
+[Ktor-бэкендом](https://github.com/itsbenzopila/drinkshop-backend-coutsework) и бонусной системой
 для постоянных покупателей.
 
 ## Стек
@@ -13,11 +13,8 @@
 | UI            | Jetpack Compose + Material 3                      |
 | Архитектура   | Clean Architecture (data / domain / presentation) |
 | DI            | Ручной ServiceLocator (`AppContainer`)            |
-| Навигация     | androidx.navigation:navigation-compose            |
-| Сеть          | Retrofit 2 + OkHttp + kotlinx.serialization       |
+| Навигация     | androidx.navigation:navigation-compose            |      |
 | Авторизация   | Firebase Auth (Email/Password)                    |
-| Картинки      | Coil                                              |
-| Min / Target  | minSdk 24, targetSdk 35                           |
 
 ## Архитектура
 
@@ -64,49 +61,3 @@ app/src/main/java/com/itsbenzopila/drinkshop/
 - За каждые **100 ₽** заказа начисляется **10 баллов**.
 - При оформлении можно списать **до 30 %** суммы заказа баллами (1 балл = 1 ₽).
 - Логика считается на бэкенде — клиент только показывает баланс и передаёт желаемое к списанию.
-
-## Запуск
-
-### 1. Файлы Firebase
-
-В `app/` уже лежит `google-services.json` (проект Firebase `android-drinkshop`).
-Если ты используешь свой проект Firebase — замени этот файл.
-
-### 2. Бэкенд
-
-Подними локально бэкенд из [drinkshop-backend](https://github.com/itsbenzopila/drinkshop-backend):
-
-```bash
-cd ../drinkshop-backend
-docker compose up -d
-./gradlew run
-```
-
-Сервер слушает `http://localhost:8080`. С эмулятора Android этот хост виден как
-`http://10.0.2.2:8080` — это и есть `API_BASE_URL` по умолчанию.
-
-### 3. Запуск приложения
-
-Открой проект в Android Studio (Hedgehog или новее) → Sync → Run на эмуляторе.
-
-#### Своя машина / реальное устройство
-
-Если бэкенд крутится не на эмуляторе, а на другом хосте — переопредели base URL
-через `local.properties`:
-
-```
-drinkshop.apiBaseUrl=http://192.168.0.10:8080/
-```
-
-> **Важно**: для cleartext-HTTP уже разрешены `10.0.2.2` и `localhost` в
-> `res/xml/network_security_config.xml`. Если будешь подключаться по другому
-> хостнейму — добавь его туда.
-
-## Тестовый сценарий
-
-1. Запускаешь приложение → попадаешь на Login.
-2. **Регистрация** → Email + пароль (≥ 6 символов) + имя → создаётся аккаунт в Firebase, бэк сразу синхронизирует пользователя.
-3. **Каталог** → выбираешь напиток → добавляешь в корзину.
-4. **Корзина** → меняешь количество, списываешь баллы (если есть) → «Оформить заказ».
-5. **Заказы** → видишь свой заказ + начисленные баллы.
-6. **Профиль** → проверяешь баланс баллов → «Выйти».
