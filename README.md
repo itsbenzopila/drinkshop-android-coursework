@@ -9,7 +9,7 @@
 
 | Слой          | Технология                                        |
 | ------------- | ------------------------------------------------- |
-| Язык          | Kotlin 2.0                                        |
+| Язык          | Kotlin                                       |
 | UI            | Jetpack Compose + Material 3                      |
 | Архитектура   | Clean Architecture (data / domain / presentation) |
 | DI            | Ручной ServiceLocator (`AppContainer`)            |
