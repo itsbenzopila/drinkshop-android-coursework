@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.services)
@@ -8,18 +7,16 @@ plugins {
 
 android {
     namespace = "com.itsbenzopila.drinkshop"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.itsbenzopila.drinkshop"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Адрес бэка по умолчанию — для эмулятора Android Studio.
-        // Если запускаешь на реальном устройстве — переопредели в local.properties (drinkshop.apiBaseUrl=...).
         val apiBaseUrl = (project.findProperty("drinkshop.apiBaseUrl") as? String)
             ?: "http://10.0.2.2:8080/"
         buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
@@ -37,8 +34,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
 
     buildFeatures {
@@ -56,8 +55,6 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
-
-    // Compose BOM
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
@@ -65,33 +62,18 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
-    // Lifecycle / VM
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-
-    // Navigation
     implementation(libs.androidx.navigation.compose)
-
-    // Networking
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.okhttp.logging)
     implementation(libs.kotlinx.serialization.json)
-
-    // Coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.play.services)
-
-    // DataStore (Firebase ID-token cache)
     implementation(libs.androidx.datastore.preferences)
-
-    // Firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth.ktx)
-
-    // Image loading
+    implementation(libs.firebase.auth)
     implementation(libs.coil.compose)
-
     testImplementation(libs.junit)
 }
