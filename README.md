@@ -1,7 +1,7 @@
 # Drinkshop — Android-клиент
 
 Курсовая работа по дисциплине **«Разработка клиент-серверных мобильных приложений»**.
-Клиентское Android-приложение магазина напитков с авторизацией Firebase, REST-обменом с
+Клиентское Android-приложение магазина напитков с авторизацией Firebase,
 [Ktor-бэкендом](https://github.com/itsbenzopila/drinkshop-backend-coutsework) и бонусной системой
 для постоянных покупателей.
 
@@ -9,7 +9,7 @@
 
 | Слой          | Технология                                        |
 | ------------- | ------------------------------------------------- |
-| Язык          | Kotlin 2.0                                        |
+| Язык          | Kotlin                                       |
 | UI            | Jetpack Compose + Material 3                      |
 | Архитектура   | Clean Architecture (data / domain / presentation) |
 | DI            | Ручной ServiceLocator (`AppContainer`)            |
@@ -20,30 +20,30 @@
 
 ```
 app/src/main/java/com/itsbenzopila/drinkshop/
-├── domain/                    # чистый Kotlin
-│   ├── model/                 # User, Drink, Cart, Order, ...
-│   ├── repository/            # интерфейсы репозиториев
-│   └── usecase/               # SignIn/SignUp/AddToCart/PlaceOrder/...
+├── domain/                    
+│   ├── model/                 
+│   ├── repository/            
+│   └── usecase/               
 ├── data/
 │   ├── remote/
-│   │   ├── api/               # Retrofit-интерфейсы
-│   │   ├── dto/               # serializable DTO
-│   │   ├── interceptor/       # AuthInterceptor (Firebase ID-token)
-│   │   └── NetworkModule.kt   # Retrofit / OkHttp / Json
-│   ├── mapper/                # DTO -> domain
-│   └── repository/            # реализации
+│   │   ├── api/               
+│   │   ├── dto/               
+│   │   ├── interceptor/       
+│   │   └── NetworkModule.kt   
+│   ├── mapper/                
+│   └── repository/            
 ├── di/
-│   └── AppContainer.kt        # ручной DI
+│   └── AppContainer.kt        
 └── presentation/
-    ├── theme/                 # Material 3 тема
-    ├── common/                # UiState
-    ├── navigation/            # AppNavGraph, Screen
-    ├── splash/                # Splash
-    ├── auth/                  # Login, Register
-    ├── catalog/               # Catalog, Drink Detail
-    ├── cart/                  # Cart, оформление заказа
-    ├── orders/                # история заказов
-    └── profile/               # профиль + бонусные баллы + Sign out
+    ├── theme/                 
+    ├── common/                
+    ├── navigation/            
+    ├── splash/                
+    ├── auth/                  
+    ├── catalog/               
+    ├── cart/                  
+    ├── orders/                
+    └── profile/               
 ```
 
 ## Экраны
