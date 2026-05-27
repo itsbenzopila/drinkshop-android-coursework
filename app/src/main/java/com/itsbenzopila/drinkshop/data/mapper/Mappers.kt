@@ -1,5 +1,6 @@
 package com.itsbenzopila.drinkshop.data.mapper
 
+import com.itsbenzopila.drinkshop.data.local.entity.DrinkEntity
 import com.itsbenzopila.drinkshop.data.remote.dto.CartDto
 import com.itsbenzopila.drinkshop.data.remote.dto.CartItemDto
 import com.itsbenzopila.drinkshop.data.remote.dto.CategoryDto
@@ -67,4 +68,26 @@ fun OrderDto.toDomain() = Order(
     status = runCatching { OrderStatus.valueOf(status) }.getOrDefault(OrderStatus.CREATED),
     createdAt = createdAt,
     items = items.map { it.toDomain() },
+)
+
+fun Drink.toLocal() = DrinkEntity(
+    id = id,
+    categoryId = categoryId,
+    name = name,
+    description = description,
+    price = price.toPlainString(),
+    imageUrl = imageUrl,
+    volumeMl = volumeMl,
+    inStock = inStock
+)
+
+fun DrinkEntity.toDomain() = Drink(
+    id = id,
+    categoryId = categoryId,
+    name = name,
+    description = description,
+    price = BigDecimal(price),
+    imageUrl = imageUrl,
+    volumeMl = volumeMl,
+    inStock = inStock
 )

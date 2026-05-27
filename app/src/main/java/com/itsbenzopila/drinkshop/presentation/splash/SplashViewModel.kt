@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +29,16 @@ class SplashViewModel @Inject constructor(
             if (current == null) {
                 _events.emit(SplashEvent.Unauthenticated)
             } else {
-                runCatching { userRepository.sync(fullName = current.displayName) }
+                // Пытаемся синхронизироваться с таймаутом, чтобы не висеть вечно
+                try {
+                    withTimeout(5000) {
+                        userRepository.sync(fullName = current.displayName)
+                    }
+                } catch (e: Exception) {
+                    // Если сервер недоступен, все равно пускаем в приложение
+                    // (будут работать данные из Room/кэша)
+                    e.printStackTrace()
+                }
                 _events.emit(SplashEvent.Authenticated)
             }
         }
