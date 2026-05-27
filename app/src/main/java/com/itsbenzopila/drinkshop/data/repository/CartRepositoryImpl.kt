@@ -6,8 +6,9 @@ import com.itsbenzopila.drinkshop.data.remote.dto.AddToCartRequestDto
 import com.itsbenzopila.drinkshop.data.remote.dto.UpdateCartItemRequestDto
 import com.itsbenzopila.drinkshop.domain.model.Cart
 import com.itsbenzopila.drinkshop.domain.repository.CartRepository
+import javax.inject.Inject
 
-class CartRepositoryImpl(
+class CartRepositoryImpl @Inject constructor(
     private val cartApi: CartApi,
 ) : CartRepository {
 

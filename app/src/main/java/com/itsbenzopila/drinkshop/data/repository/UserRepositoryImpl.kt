@@ -7,8 +7,9 @@ import com.itsbenzopila.drinkshop.data.remote.dto.SyncRequestDto
 import com.itsbenzopila.drinkshop.data.remote.dto.UpdateProfileRequestDto
 import com.itsbenzopila.drinkshop.domain.model.User
 import com.itsbenzopila.drinkshop.domain.repository.UserRepository
+import javax.inject.Inject
 
-class UserRepositoryImpl(
+class UserRepositoryImpl @Inject constructor(
     private val authApi: AuthApi,
     private val userApi: UserApi,
 ) : UserRepository {

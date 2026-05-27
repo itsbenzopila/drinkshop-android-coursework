@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.itsbenzopila.drinkshop.domain.usecase.SignInUseCase
 import com.itsbenzopila.drinkshop.domain.usecase.SignUpUseCase
 import com.itsbenzopila.drinkshop.presentation.common.userMessage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class AuthUiState(
     val email: String = "",
@@ -19,7 +21,8 @@ data class AuthUiState(
     val signedIn: Boolean = false,
 )
 
-class AuthViewModel(
+@HiltViewModel
+class AuthViewModel @Inject constructor(
     private val signInUseCase: SignInUseCase,
     private val signUpUseCase: SignUpUseCase,
 ) : ViewModel() {

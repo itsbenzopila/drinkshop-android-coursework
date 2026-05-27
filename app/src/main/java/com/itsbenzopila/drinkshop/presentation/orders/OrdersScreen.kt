@@ -23,44 +23,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.itsbenzopila.drinkshop.di.AppContainer
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.itsbenzopila.drinkshop.domain.model.Order
-import com.itsbenzopila.drinkshop.domain.usecase.GetOrdersUseCase
 import com.itsbenzopila.drinkshop.presentation.common.UiState
-import com.itsbenzopila.drinkshop.presentation.common.userMessage
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-
-private class OrdersViewModel(private val getOrdersUseCase: GetOrdersUseCase) : ViewModel() {
-    private val _state = MutableStateFlow<UiState<List<Order>>>(UiState.Loading)
-    val state: StateFlow<UiState<List<Order>>> = _state
-
-    init {
-        load()
-    }
-
-    fun load() {
-        viewModelScope.launch {
-            _state.value = UiState.Loading
-            runCatching { getOrdersUseCase() }
-                .onSuccess { orders -> _state.value = UiState.Success(orders) }
-                .onFailure { t -> _state.value = UiState.Error(t.userMessage()) }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OrdersScreen(container: AppContainer) {
-    val vm = remember { OrdersViewModel(container.getOrdersUseCase) }
+fun OrdersScreen(vm: OrdersViewModel = hiltViewModel()) {
     val state by vm.state.collectAsState()
 
     Scaffold(topBar = { TopAppBar(title = { Text("Заказы") }) }) { padding ->

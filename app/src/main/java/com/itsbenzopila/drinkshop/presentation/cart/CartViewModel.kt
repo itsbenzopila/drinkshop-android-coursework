@@ -11,12 +11,14 @@ import com.itsbenzopila.drinkshop.domain.usecase.RemoveCartItemUseCase
 import com.itsbenzopila.drinkshop.domain.usecase.UpdateCartItemUseCase
 import com.itsbenzopila.drinkshop.presentation.common.UiState
 import com.itsbenzopila.drinkshop.presentation.common.userMessage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.math.RoundingMode
+import javax.inject.Inject
 
 data class CartUi(
     val cart: UiState<Cart> = UiState.Loading,
@@ -27,7 +29,8 @@ data class CartUi(
     val placed: Boolean = false,
 )
 
-class CartViewModel(
+@HiltViewModel
+class CartViewModel @Inject constructor(
     private val getCartUseCase: GetCartUseCase,
     private val updateCartItemUseCase: UpdateCartItemUseCase,
     private val removeCartItemUseCase: RemoveCartItemUseCase,

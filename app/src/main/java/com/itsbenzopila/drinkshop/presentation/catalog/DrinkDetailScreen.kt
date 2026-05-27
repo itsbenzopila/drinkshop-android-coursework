@@ -21,70 +21,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.itsbenzopila.drinkshop.di.AppContainer
-import com.itsbenzopila.drinkshop.domain.model.Drink
-import com.itsbenzopila.drinkshop.domain.usecase.AddToCartUseCase
-import com.itsbenzopila.drinkshop.domain.usecase.GetDrinkUseCase
 import com.itsbenzopila.drinkshop.presentation.common.UiState
-import com.itsbenzopila.drinkshop.presentation.common.userMessage
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-
-private data class DetailUi(
-    val drink: UiState<Drink> = UiState.Loading,
-    val isAdding: Boolean = false,
-)
-
-private class DrinkDetailViewModel(
-    private val getDrinkUseCase: GetDrinkUseCase,
-    private val addToCartUseCase: AddToCartUseCase,
-    private val drinkId: Long,
-) : ViewModel() {
-    private val _state = MutableStateFlow(DetailUi())
-    val state: StateFlow<DetailUi> = _state
-
-    init {
-        viewModelScope.launch {
-            runCatching { getDrinkUseCase(drinkId) }
-                .onSuccess { d -> _state.update { it.copy(drink = UiState.Success(d)) } }
-                .onFailure { t -> _state.update { it.copy(drink = UiState.Error(t.userMessage())) } }
-        }
-    }
-
-    fun add(onDone: () -> Unit) {
-        viewModelScope.launch {
-            _state.update { it.copy(isAdding = true) }
-            runCatching { addToCartUseCase(drinkId, 1) }
-                .onSuccess { onDone() }
-            _state.update { it.copy(isAdding = false) }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DrinkDetailScreen(
-    container: AppContainer,
     drinkId: Long,
     onBack: () -> Unit,
     onAdded: () -> Unit,
+    vm: DrinkDetailViewModel = hiltViewModel(),
 ) {
-    val vm = remember(drinkId) {
-        DrinkDetailViewModel(container.getDrinkUseCase, container.addToCartUseCase, drinkId)
-    }
     val state by vm.state.collectAsState()
 
     Scaffold(

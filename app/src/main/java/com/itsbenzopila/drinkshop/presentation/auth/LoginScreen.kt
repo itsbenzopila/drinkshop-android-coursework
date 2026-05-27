@@ -25,15 +25,14 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.collectAsState
-import com.itsbenzopila.drinkshop.di.AppContainer
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun LoginScreen(
-    container: AppContainer,
     onSignedIn: () -> Unit,
     onGoRegister: () -> Unit,
+    vm: AuthViewModel = hiltViewModel(),
 ) {
-    val vm = remember { AuthViewModel(container.signInUseCase, container.signUpUseCase) }
     val state by vm.state.collectAsState()
 
     LaunchedEffect(state.signedIn) {

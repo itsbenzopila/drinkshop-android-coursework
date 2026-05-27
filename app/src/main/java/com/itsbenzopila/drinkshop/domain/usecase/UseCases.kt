@@ -5,8 +5,9 @@ import com.itsbenzopila.drinkshop.domain.repository.CartRepository
 import com.itsbenzopila.drinkshop.domain.repository.CatalogRepository
 import com.itsbenzopila.drinkshop.domain.repository.OrderRepository
 import com.itsbenzopila.drinkshop.domain.repository.UserRepository
+import javax.inject.Inject
 
-class SignInUseCase(
+class SignInUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
 ) {
@@ -16,7 +17,7 @@ class SignInUseCase(
     }
 }
 
-class SignUpUseCase(
+class SignUpUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
 ) {
@@ -26,46 +27,46 @@ class SignUpUseCase(
     }
 }
 
-class SignOutUseCase(private val authRepository: AuthRepository) {
+class SignOutUseCase @Inject constructor(private val authRepository: AuthRepository) {
     suspend operator fun invoke() = authRepository.signOut()
 }
 
-class GetMeUseCase(private val userRepository: UserRepository) {
+class GetMeUseCase @Inject constructor(private val userRepository: UserRepository) {
     suspend operator fun invoke() = userRepository.me()
 }
 
-class GetCategoriesUseCase(private val catalogRepository: CatalogRepository) {
+class GetCategoriesUseCase @Inject constructor(private val catalogRepository: CatalogRepository) {
     suspend operator fun invoke() = catalogRepository.categories()
 }
 
-class GetDrinksUseCase(private val catalogRepository: CatalogRepository) {
+class GetDrinksUseCase @Inject constructor(private val catalogRepository: CatalogRepository) {
     suspend operator fun invoke(categoryId: Long?) = catalogRepository.drinks(categoryId)
 }
 
-class GetDrinkUseCase(private val catalogRepository: CatalogRepository) {
+class GetDrinkUseCase @Inject constructor(private val catalogRepository: CatalogRepository) {
     suspend operator fun invoke(id: Long) = catalogRepository.drink(id)
 }
 
-class GetCartUseCase(private val cartRepository: CartRepository) {
+class GetCartUseCase @Inject constructor(private val cartRepository: CartRepository) {
     suspend operator fun invoke() = cartRepository.get()
 }
 
-class AddToCartUseCase(private val cartRepository: CartRepository) {
+class AddToCartUseCase @Inject constructor(private val cartRepository: CartRepository) {
     suspend operator fun invoke(drinkId: Long, quantity: Int = 1) = cartRepository.add(drinkId, quantity)
 }
 
-class UpdateCartItemUseCase(private val cartRepository: CartRepository) {
+class UpdateCartItemUseCase @Inject constructor(private val cartRepository: CartRepository) {
     suspend operator fun invoke(itemId: Long, quantity: Int) = cartRepository.update(itemId, quantity)
 }
 
-class RemoveCartItemUseCase(private val cartRepository: CartRepository) {
+class RemoveCartItemUseCase @Inject constructor(private val cartRepository: CartRepository) {
     suspend operator fun invoke(itemId: Long) = cartRepository.remove(itemId)
 }
 
-class PlaceOrderUseCase(private val orderRepository: OrderRepository) {
+class PlaceOrderUseCase @Inject constructor(private val orderRepository: OrderRepository) {
     suspend operator fun invoke(pointsToSpend: Int) = orderRepository.place(pointsToSpend)
 }
 
-class GetOrdersUseCase(private val orderRepository: OrderRepository) {
+class GetOrdersUseCase @Inject constructor(private val orderRepository: OrderRepository) {
     suspend operator fun invoke() = orderRepository.list()
 }

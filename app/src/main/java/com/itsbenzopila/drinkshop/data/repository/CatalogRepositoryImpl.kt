@@ -5,8 +5,9 @@ import com.itsbenzopila.drinkshop.data.remote.api.CatalogApi
 import com.itsbenzopila.drinkshop.domain.model.Category
 import com.itsbenzopila.drinkshop.domain.model.Drink
 import com.itsbenzopila.drinkshop.domain.repository.CatalogRepository
+import javax.inject.Inject
 
-class CatalogRepositoryImpl(
+class CatalogRepositoryImpl @Inject constructor(
     private val catalogApi: CatalogApi,
 ) : CatalogRepository {
 

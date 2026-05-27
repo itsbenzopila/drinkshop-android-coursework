@@ -24,59 +24,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.itsbenzopila.drinkshop.di.AppContainer
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.itsbenzopila.drinkshop.domain.model.User
-import com.itsbenzopila.drinkshop.domain.usecase.GetMeUseCase
-import com.itsbenzopila.drinkshop.domain.usecase.SignOutUseCase
 import com.itsbenzopila.drinkshop.presentation.common.UiState
-import com.itsbenzopila.drinkshop.presentation.common.userMessage
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-
-private data class ProfileUi(
-    val user: UiState<User> = UiState.Loading,
-    val signedOut: Boolean = false,
-)
-
-private class ProfileViewModel(
-    private val getMeUseCase: GetMeUseCase,
-    private val signOutUseCase: SignOutUseCase,
-) : ViewModel() {
-    private val _state = MutableStateFlow(ProfileUi())
-    val state: StateFlow<ProfileUi> = _state
-
-    init {
-        viewModelScope.launch {
-            runCatching { getMeUseCase() }
-                .onSuccess { u -> _state.update { it.copy(user = UiState.Success(u)) } }
-                .onFailure { t -> _state.update { it.copy(user = UiState.Error(t.userMessage())) } }
-        }
-    }
-
-    fun signOut() {
-        viewModelScope.launch {
-            signOutUseCase()
-            _state.update { it.copy(signedOut = true) }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    container: AppContainer,
     onSignedOut: () -> Unit,
+    vm: ProfileViewModel = hiltViewModel(),
 ) {
-    val vm = remember { ProfileViewModel(container.getMeUseCase, container.signOutUseCase) }
     val state by vm.state.collectAsState()
 
     LaunchedEffect(state.signedOut) {

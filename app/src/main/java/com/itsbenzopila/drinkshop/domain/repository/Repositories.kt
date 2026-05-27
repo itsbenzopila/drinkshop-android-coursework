@@ -16,7 +16,6 @@ interface AuthRepository {
 }
 
 interface UserRepository {
-    /** После логина Firebase синхронизируем профиль с бэкендом. */
     suspend fun sync(fullName: String?): User
     suspend fun me(): User
     suspend fun updateProfile(fullName: String?, phone: String?): User

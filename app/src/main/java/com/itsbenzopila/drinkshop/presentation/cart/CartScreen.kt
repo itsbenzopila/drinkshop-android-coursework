@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
-import com.itsbenzopila.drinkshop.di.AppContainer
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.itsbenzopila.drinkshop.domain.model.Cart
 import com.itsbenzopila.drinkshop.domain.model.CartItem
 import com.itsbenzopila.drinkshop.presentation.common.UiState
@@ -51,18 +51,9 @@ import java.math.RoundingMode
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartScreen(
-    container: AppContainer,
     onOrderPlaced: () -> Unit,
+    vm: CartViewModel = hiltViewModel(),
 ) {
-    val vm = remember {
-        CartViewModel(
-            container.getCartUseCase,
-            container.updateCartItemUseCase,
-            container.removeCartItemUseCase,
-            container.placeOrderUseCase,
-            container.getMeUseCase,
-        )
-    }
     val state by vm.state.collectAsState()
     val snackbar = remember { SnackbarHostState() }
 

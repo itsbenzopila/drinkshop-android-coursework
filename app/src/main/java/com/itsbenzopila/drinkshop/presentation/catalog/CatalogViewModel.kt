@@ -9,10 +9,12 @@ import com.itsbenzopila.drinkshop.domain.usecase.GetCategoriesUseCase
 import com.itsbenzopila.drinkshop.domain.usecase.GetDrinksUseCase
 import com.itsbenzopila.drinkshop.presentation.common.UiState
 import com.itsbenzopila.drinkshop.presentation.common.userMessage
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class CatalogUi(
     val categories: List<Category> = emptyList(),
@@ -22,7 +24,8 @@ data class CatalogUi(
     val snackbar: String? = null,
 )
 
-class CatalogViewModel(
+@HiltViewModel
+class CatalogViewModel @Inject constructor(
     private val getCategoriesUseCase: GetCategoriesUseCase,
     private val getDrinksUseCase: GetDrinksUseCase,
     private val addToCartUseCase: AddToCartUseCase,

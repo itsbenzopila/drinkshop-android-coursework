@@ -19,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.itsbenzopila.drinkshop.di.AppContainer
 import com.itsbenzopila.drinkshop.presentation.auth.LoginScreen
 import com.itsbenzopila.drinkshop.presentation.auth.RegisterScreen
 import com.itsbenzopila.drinkshop.presentation.cart.CartScreen
@@ -43,7 +42,7 @@ private val bottomBarRoutes = listOf(
 )
 
 @Composable
-fun AppNavGraph(container: AppContainer) {
+fun AppNavGraph() {
     val navController = rememberNavController()
     val backStack by navController.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route
@@ -81,7 +80,6 @@ fun AppNavGraph(container: AppContainer) {
         ) {
             composable(Screen.Splash.route) {
                 SplashScreen(
-                    container = container,
                     onAuthenticated = {
                         navController.navigate(Screen.Catalog.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
@@ -96,7 +94,6 @@ fun AppNavGraph(container: AppContainer) {
             }
             composable(Screen.Login.route) {
                 LoginScreen(
-                    container = container,
                     onSignedIn = {
                         navController.navigate(Screen.Catalog.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
@@ -107,7 +104,6 @@ fun AppNavGraph(container: AppContainer) {
             }
             composable(Screen.Register.route) {
                 RegisterScreen(
-                    container = container,
                     onSignedUp = {
                         navController.navigate(Screen.Catalog.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
@@ -118,7 +114,6 @@ fun AppNavGraph(container: AppContainer) {
             }
             composable(Screen.Catalog.route) {
                 CatalogScreen(
-                    container = container,
                     onOpenDrink = { id -> navController.navigate(Screen.DrinkDetail.route(id)) },
                 )
             }
@@ -128,7 +123,6 @@ fun AppNavGraph(container: AppContainer) {
             ) { entry ->
                 val drinkId = entry.arguments?.getLong(Screen.DrinkDetail.ARG) ?: return@composable
                 DrinkDetailScreen(
-                    container = container,
                     drinkId = drinkId,
                     onBack = { navController.popBackStack() },
                     onAdded = { navController.navigate(Screen.Cart.route) },
@@ -136,7 +130,6 @@ fun AppNavGraph(container: AppContainer) {
             }
             composable(Screen.Cart.route) {
                 CartScreen(
-                    container = container,
                     onOrderPlaced = {
                         navController.navigate(Screen.Orders.route) {
                             popUpTo(Screen.Catalog.route)
@@ -145,11 +138,10 @@ fun AppNavGraph(container: AppContainer) {
                 )
             }
             composable(Screen.Orders.route) {
-                OrdersScreen(container = container)
+                OrdersScreen()
             }
             composable(Screen.Profile.route) {
                 ProfileScreen(
-                    container = container,
                     onSignedOut = {
                         navController.navigate(Screen.Login.route) {
                             popUpTo(0) { inclusive = true }

@@ -5,8 +5,9 @@ import com.itsbenzopila.drinkshop.data.remote.api.OrderApi
 import com.itsbenzopila.drinkshop.data.remote.dto.PlaceOrderRequestDto
 import com.itsbenzopila.drinkshop.domain.model.Order
 import com.itsbenzopila.drinkshop.domain.repository.OrderRepository
+import javax.inject.Inject
 
-class OrderRepositoryImpl(
+class OrderRepositoryImpl @Inject constructor(
     private val orderApi: OrderApi,
 ) : OrderRepository {
 

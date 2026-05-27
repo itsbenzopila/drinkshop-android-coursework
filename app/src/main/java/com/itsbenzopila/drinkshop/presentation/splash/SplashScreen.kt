@@ -11,23 +11,21 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.google.firebase.auth.FirebaseAuth
-import com.itsbenzopila.drinkshop.di.AppContainer
+import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SplashScreen(
-    container: AppContainer,
     onAuthenticated: () -> Unit,
     onUnauthenticated: () -> Unit,
+    vm: SplashViewModel = hiltViewModel(),
 ) {
-    LaunchedEffect(Unit) {
-        val current = FirebaseAuth.getInstance().currentUser
-        if (current == null) {
-            onUnauthenticated()
-        } else {
-            // токен живой → синкуем пользователя с бэком и идём в каталог
-            runCatching { container.userRepository.sync(fullName = current.displayName) }
-            onAuthenticated()
+    LaunchedEffect(vm.events) {
+        vm.events.collectLatest { event ->
+            when (event) {
+                SplashViewModel.SplashEvent.Authenticated -> onAuthenticated()
+                SplashViewModel.SplashEvent.Unauthenticated -> onUnauthenticated()
+            }
         }
     }
     Column(

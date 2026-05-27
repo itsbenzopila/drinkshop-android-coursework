@@ -6,10 +6,6 @@ import kotlinx.coroutines.tasks.await
 import okhttp3.Interceptor
 import okhttp3.Response
 
-/**
- * Подставляет свежий Firebase ID-token в Authorization для каждого запроса.
- * Если пользователь не авторизован — пропускает заголовок (запрос пойдёт на публичный эндпоинт).
- */
 class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

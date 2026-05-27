@@ -38,24 +38,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.itsbenzopila.drinkshop.di.AppContainer
 import com.itsbenzopila.drinkshop.domain.model.Drink
 import com.itsbenzopila.drinkshop.presentation.common.UiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CatalogScreen(
-    container: AppContainer,
     onOpenDrink: (Long) -> Unit,
+    vm: CatalogViewModel = hiltViewModel(),
 ) {
-    val vm = remember {
-        CatalogViewModel(
-            container.getCategoriesUseCase,
-            container.getDrinksUseCase,
-            container.addToCartUseCase,
-        )
-    }
     val state by vm.state.collectAsState()
     val snackbar = remember { SnackbarHostState() }
 

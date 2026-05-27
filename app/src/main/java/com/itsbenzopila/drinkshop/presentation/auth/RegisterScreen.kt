@@ -30,16 +30,15 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.itsbenzopila.drinkshop.di.AppContainer
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    container: AppContainer,
     onSignedUp: () -> Unit,
     onBack: () -> Unit,
+    vm: AuthViewModel = hiltViewModel(),
 ) {
-    val vm = remember { AuthViewModel(container.signInUseCase, container.signUpUseCase) }
     val state by vm.state.collectAsState()
 
     LaunchedEffect(state.signedIn) {

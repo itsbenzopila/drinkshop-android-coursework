@@ -7,9 +7,10 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class AuthRepositoryImpl(
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance(),
+class AuthRepositoryImpl @Inject constructor(
+    private val firebaseAuth: FirebaseAuth,
 ) : AuthRepository {
 
     override val isSignedIn: Flow<Boolean> = callbackFlow {
