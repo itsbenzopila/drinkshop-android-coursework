@@ -9,7 +9,7 @@ data class DrinkEntity(
     val categoryId: Long,
     val name: String,
     val description: String,
-    val price: String, // Storing BigDecimal as String for simplicity or use TypeConverter
+    val price: String,
     val imageUrl: String?,
     val volumeMl: Int,
     val inStock: Boolean

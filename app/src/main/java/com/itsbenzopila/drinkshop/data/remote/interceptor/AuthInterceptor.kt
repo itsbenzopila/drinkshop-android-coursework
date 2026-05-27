@@ -11,9 +11,6 @@ class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val user = FirebaseAuth.getInstance().currentUser
-
-        // 1. Попытка взять токен из кэша БЕЗ блокировки потока.
-        // Если он готов - используем, если нет - идем без него.
         val tokenTask = user?.getIdToken(false)
         val token = if (tokenTask != null && tokenTask.isComplete && tokenTask.isSuccessful) {
             tokenTask.result?.token
@@ -29,7 +26,6 @@ class AuthInterceptor : Interceptor {
             request
         }
 
-        // 2. Выполняем запрос
         val response = try {
             chain.proceed(authenticatedRequest)
         } catch (e: Exception) {
@@ -37,14 +33,11 @@ class AuthInterceptor : Interceptor {
             throw e
         }
 
-        // 3. Если получили 401, значит токен протух или его не было.
-        // Обновляем принудительно и пробуем еще раз.
         if (response.code == 401 && user != null) {
             Log.d("AuthInterceptor", "Got 401, refreshing token...")
             response.close() // Закрываем старый ответ
 
             val newToken = try {
-                // Здесь блокировка допустима, так как это редкий случай (раз в час)
                 Tasks.await(user.getIdToken(true), 10, TimeUnit.SECONDS).token
             } catch (e: Exception) {
                 Log.e("AuthInterceptor", "Token refresh failed: ${e.message}")

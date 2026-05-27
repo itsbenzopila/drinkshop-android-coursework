@@ -22,13 +22,11 @@ class CatalogRepositoryImpl @Inject constructor(
         return try {
             val remoteDrinks = catalogApi.drinks(categoryId).map { it.toDomain() }
             if (categoryId == null) {
-                // Cache only "all drinks" for simplicity in this example
                 drinkDao.deleteAllDrinks()
                 drinkDao.insertDrinks(remoteDrinks.map { it.toLocal() })
             }
             remoteDrinks
         } catch (e: Exception) {
-            // Fallback to local cache if offline
             if (categoryId == null) {
                 drinkDao.getAllDrinks().first().map { it.toDomain() }
             } else {

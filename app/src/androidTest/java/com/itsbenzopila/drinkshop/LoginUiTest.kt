@@ -16,8 +16,6 @@ class LoginUiTest {
 
     @Test
     fun loginScreen_displaysElements() {
-        // Wait for splash to finish if necessary, or just check elements
-        // This assumes the app starts at Login or Splash leads to Login
         composeTestRule.onNodeWithText("Email").assertIsDisplayed()
         composeTestRule.onNodeWithText("Пароль").assertIsDisplayed()
         composeTestRule.onNodeWithText("Войти").assertIsDisplayed()

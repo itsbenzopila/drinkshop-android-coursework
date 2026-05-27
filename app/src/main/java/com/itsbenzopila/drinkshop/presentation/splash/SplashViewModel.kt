@@ -29,14 +29,11 @@ class SplashViewModel @Inject constructor(
             if (current == null) {
                 _events.emit(SplashEvent.Unauthenticated)
             } else {
-                // Пытаемся синхронизироваться с таймаутом, чтобы не висеть вечно
                 try {
                     withTimeout(5000) {
                         userRepository.sync(fullName = current.displayName)
                     }
                 } catch (e: Exception) {
-                    // Если сервер недоступен, все равно пускаем в приложение
-                    // (будут работать данные из Room/кэша)
                     e.printStackTrace()
                 }
                 _events.emit(SplashEvent.Authenticated)
