@@ -11,40 +11,10 @@
 | ------------- | ------------------------------------------------- |
 | Язык          | Kotlin                                       |
 | UI            | Jetpack Compose + Material 3                      |
-| Архитектура   | Clean Architecture (data / domain / presentation) |
-| DI            | Ручной ServiceLocator (`AppContainer`)            |
+| Архитектура   | Clean Architecture |
+| DI            | Hilt           |
 | Навигация     | androidx.navigation:navigation-compose            |      |
 | Авторизация   | Firebase Auth (Email/Password)                    |
-
-## Архитектура
-
-```
-app/src/main/java/com/itsbenzopila/drinkshop/
-├── domain/                    
-│   ├── model/                 
-│   ├── repository/            
-│   └── usecase/               
-├── data/
-│   ├── remote/
-│   │   ├── api/               
-│   │   ├── dto/               
-│   │   ├── interceptor/       
-│   │   └── NetworkModule.kt   
-│   ├── mapper/                
-│   └── repository/            
-├── di/
-│   └── AppContainer.kt        
-└── presentation/
-    ├── theme/                 
-    ├── common/                
-    ├── navigation/            
-    ├── splash/                
-    ├── auth/                  
-    ├── catalog/               
-    ├── cart/                  
-    ├── orders/                
-    └── profile/               
-```
 
 ## Экраны
 
