@@ -2,7 +2,7 @@
 
 Курсовая работа по дисциплине **«Разработка клиент-серверных мобильных приложений»**.
 Клиентское Android-приложение магазина напитков с авторизацией Firebase,
-[Ktor-бэкендом](https://github.com/itsbenzopila/drinkshop-backend-coutsework) и бонусной системой
+[Ktor-бэкендом](https://github.com/itsbenzopila/drinkshop-backend-coursework) и бонусной системой
 для постоянных покупателей.
 
 ## Стек
